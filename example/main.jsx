@@ -5,7 +5,8 @@ import ReactAutolinkMixin from "../src/react-autolink";
 let App = React.createClass({
   getDefaultProps() {
     return {
-      text: "foo bar baz http://yahoo.co.jp www.google.com .bar ...hello blab.im www.blab.im bar https://medium.com/@shaanvp/af1526dfee3e#.9g5fpk6cz",
+      text: "foo bar baz http://yahoo.co.jp/test/abcde?abc=1234 www.google.com .bar ...hello blab.im www.blab.im bar" +
+      " https://medium.com/@shaanvp/af1526dfee3e#.9g5fpk6cz",
     };
   },
 

@@ -4,6 +4,7 @@ import assign from 'object-assign';
 let ReactAutolink = () => {
   const delimiter = /((?:https?:\/\/)?(?:(?:[a-z0-9]?(?:[a-z0-9\-]{1,61}[a-z0-9])?\.[^\.|\s])+[a-z\.]*[a-z]+|(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3})(?::\d{1,5})*[a-z0-9@.,_\/~#&=;%+?\-\\(\\)]*)/ig;
   const matcher = /(^|\s)((https?:\/\/)?[\w-]+(\.[\w-]+)+\.?(:\d+)?(\/\S*)?)/gi;
+  const queryMatcher = /([?&].*=)/gi;
 
   let strStartsWith = (str, prefix) => {
     return str.slice(0, prefix.length) === prefix;
@@ -16,7 +17,6 @@ let ReactAutolink = () => {
       return text.split(delimiter).map(word => {
         let match = word.match(matcher);
         if (match) {
-          console.log(this.props);
           let url = match[0];
 
           let segments = url.split('/');
@@ -25,10 +25,11 @@ let ReactAutolink = () => {
             return word;
           }
           let displayUrl = url;
-          url += (options && options.ref) ? ('?ref='+options.ref) : '';
+          let hasQueryStringMatch = url.match(queryMatcher);
+          url += (options && options.ref) ? (hasQueryStringMatch && hasQueryStringMatch.length ? ('&ref='+options.ref) : ('?ref='+options.ref)) : '';
           return React.createElement(
             'a',
-            assign({href: strStartsWith(url, 'https') ? url : `http://${url}`}, options),
+            assign({href: strStartsWith(url, 'http') ? url : `http://${url}`}, options),
             displayUrl
           );
         } else {
