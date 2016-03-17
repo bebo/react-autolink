@@ -26,6 +26,7 @@ let ReactAutolink = () => {
           }
           let displayUrl = url;
           url = url.replace('http://', '');
+          url = url.replace('http//', '');
           let hasQueryStringMatch = url.match(queryMatcher);
           url += (options && options.ref) ? (hasQueryStringMatch && hasQueryStringMatch.length ? ('&ref='+options.ref) : ('?ref='+options.ref)) : '';
           return React.createElement(
